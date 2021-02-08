@@ -1,0 +1,82 @@
+<html>
+    <head>
+        <title>Hello</title>
+    </head>
+    <body>
+        <div id = 'root'>
+        </div>
+           
+            <script src="C:\Users\SHASHI NIRANJAN\jan-2020-mern\react\js\react.development.js"></script>
+            <script src="C:\Users\SHASHI NIRANJAN\jan-2020-mern\react\js\react-dom.development.js"></script>
+            <script src="C:\Users\SHASHI NIRANJAN\jan-2020-mern\react\js\babel.js"></script>
+
+            <script src="C:\Users\SHASHI NIRANJAN\jan-2020-mern\react\js\axios.js"></script>
+
+            <script type="text/babel">
+                    
+            const rootHandle = document.getElementById('root')
+
+            class Generate extends React.Component{
+                constructor(){
+                    super()
+                    this.state = {                        
+                        name: '',
+                        gender:''                                                
+                    }
+                }
+                
+                handleChange = (e) => {
+                const name = e.target.value
+                this.setState({name, })
+                        }
+
+                handleSubmit=(e)=>{
+                    e.preventDefault() 
+                    axios.get(`https://api.genderize.io?name=${this.state.name}`)
+                .then((response)=> {
+                    const users=response.data
+                    this.setState({gender:response.data.gender})
+                })
+                .catch((err)=> {
+                   console.log(err)
+                })
+            }
+
+                render() {
+                console.log(this.state)
+                return (
+                   <div>
+                      <h2>Determine Gender</h2>
+                      <form onSubmit= {this.handleSubmit}>
+                             <label htmlFor='name'> name</label>                              
+                                                           <input 
+                                                               type='text'   
+                                                               id='name'  
+                                                               name='name'                          
+                                                               value={this.state.name}
+                                                               onChange={this.handleChange}
+                                                               />
+                               
+                                                               <input type='submit' value='submit'/>
+                                                               </form>
+                                                {this.state.gender && (    
+                                                    <div>                   
+                                                   <h1>name-{this.state.name} </h1>
+                                                   <h2>gender-{this.state.gender}</h2>
+                                                   </div>         
+                                                )}
+
+                   </div>
+
+                )
+            }
+            
+        }
+
+            ReactDOM.render(<Generate/>, rootHandle)
+             
+            
+            
+          </script>
+    </body>
+</html>
